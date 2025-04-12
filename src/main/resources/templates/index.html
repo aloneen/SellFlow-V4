@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>SellFlow - Products</title>
+</head>
+<body>
+
+<!--    Header-->
+<header class="header">
+    <div class="container">
+        <div class="header_inner">
+            <div class="logo">
+                SellFlow
+            </div>
+
+            <nav class="header_nav">
+                <a th:href="@{'/'}" class="header_link">Products</a>
+                <a th:href="@{'/add'}" class="header_link">Sell</a>
+            </nav>
+        </div>
+    </div>
+</header>
+
+
+
+
+
+<div class="products">
+    <div class="container">
+        <div class="products_inner">
+            <h1>Products: </h1>
+
+            <!-- Search and Filter Form -->
+            <form th:action="@{/}" method="get" class="search-filter-form">
+                <div class="search-box">
+                    <input type="text" name="search" th:value="${searchQuery}"
+                           placeholder="Search by title...">
+                    <button type="submit">Search</button>
+                    <a th:href="@{/}" class="clear-btn">Clear</a>
+                </div>
+
+                <div class="filter-box">
+                    <select name="categoryId" onchange="this.form.submit()">
+                        <option value="">All Categories</option>
+                        <option th:each="category : ${categories}"
+                                th:value="${category.id}"
+                                th:text="${category.getName()}"
+                                th:selected="${category.id == selectedCategory}">
+                        </option>
+                    </select>
+                </div>
+            </form>
+
+            <div th:if="${products.isEmpty()}">
+                There are no products available
+            </div>
+            <div th:else>
+                <div th:each="product : ${products}">
+                    <a th:href="@{'/' + ${product.getId()} }">
+                        <h5 th:text="${product.getTitle()}"></h5>
+                    </a>
+                    <p>Price: <span th:text="${product.getPrice()}"></span></p>
+                    <p>City: <span th:text="${product.getCity()}"></span></p>
+                    <p>Category: <span th:text="${product.getCategory().getName()}"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+</html>

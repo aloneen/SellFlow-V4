@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>SellFlow - SELL</title>
+</head>
+<body>
+
+<header class="header">
+    <div class="container">
+        <div class="header_inner">
+            <div class="logo">
+                SellFlow
+            </div>
+
+            <nav class="header_nav">
+                <a th:href="@{'/'}" class="header_link">Products</a>
+            </nav>
+        </div>
+    </div>
+</header>
+
+
+
+
+<div class="sell">
+    <div class="container">
+        <div class="sell_inner">
+            <form th:action="@{'/add'}" class="sell_form" method="post">
+                Title: <input type="text" name="title" required>
+                Description: <input type="text" name="description" required>
+                Price: <input type="number" name="price" required>
+                City: <input type="text" name="city" required>
+                Author: <input type="text" name="author" required>
+
+                <select id="category" name="category" required>
+                    <option value="" disabled selected>Select a category</option>
+                    <option th:each="category : ${categories}"
+                            th:value="${category.id}"
+                            th:text="${category.getName()}"></option>
+                </select>
+
+                <input type="submit" value="submit">
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

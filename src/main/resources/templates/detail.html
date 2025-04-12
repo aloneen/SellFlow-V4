@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/style.css">
+    <title th:text="${product.getTitle()}"></title>
+</head>
+<body>
+
+<!--header-->
+
+<header class="header">
+    <div class="container">
+        <div class="header_inner">
+            <div class="logo">
+                SellFlow
+            </div>
+
+            <nav class="header_nav">
+                <a th:href="@{'/'}" class="header_link">Products</a>
+                <a th:href="@{'/add'}" class="header_link">Sell</a>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<!--header-->
+
+<div class="product_details">
+    <div class="container">
+        <div class="product_details_inner">
+            <h2 th:text="${product.getTitle()}">
+            </h2>
+            <p th:text="${product.getDescription()}"></p>
+            <b th:text="${product.getPrice()}"></b>
+            <p th:text="${category}"></p>
+            <p th:text="${product.getCity()}"></p>
+            <p th:text="${product.getAuthor()}"></p>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
