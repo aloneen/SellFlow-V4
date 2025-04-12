@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
     <title>SellFlow - SELL</title>
 </head>
@@ -22,33 +23,83 @@
     </div>
 </header>
 
-
-
-
 <div class="sell">
     <div class="container">
         <div class="sell_inner">
-            <form th:action="@{'/add'}" class="sell_form" method="post">
-                Title: <input type="text" name="title" required>
-                Description: <input type="text" name="description" required>
-                Price: <input type="number" name="price" required>
-                City: <input type="text" name="city" required>
-                Author: <input type="text" name="author" required>
+            <form th:action="@{'/add'}" class="sell_form" method="post" enctype="multipart/form-data" id="sellForm">
+                <h3>Sell Your Product</h3>
 
-                <select id="category" name="category" required>
-                    <option value="" disabled selected>Select a category</option>
-                    <option th:each="category : ${categories}"
-                            th:value="${category.id}"
-                            th:text="${category.getName()}"></option>
-                </select>
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
 
-                <input type="submit" value="submit">
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" required rows="4"></textarea>
+                </div>
 
+                <div class="form-group">
+                    <label for="price">Price</label>
+                    <input type="number" id="price" name="price" required min="0" step="0.01">
+                </div>
 
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" id="city" name="city" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="author">Author</label>
+                    <input type="text" id="author" name="author" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" name="category" required>
+                        <option value="" disabled selected>Select a category</option>
+                        <option th:each="category : ${categories}"
+                                th:value="${category.id}"
+                                th:text="${category.getName()}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="images">Product Images (multiple allowed, max 2MB each)</label>
+                    <input type="file" name="images" id="images" multiple accept="image/*">
+                    <p id="image-error" class="error-message" style="display: none;">One or more images exceed the 2MB size limit.</p>
+                </div>
+
+                <input type="submit" value="Submit">
             </form>
         </div>
     </div>
 </div>
 
+<script>
+    // Image size validation
+    document.getElementById('sellForm').addEventListener('submit', function(event) {
+        const files = document.getElementById('images').files;
+        const maxSize = 2 * 1024 * 1024; // 2MB in bytes
+        let hasError = false;
+
+        for (let i = 0; i < files.length; i++) {
+            if (files[i].size > maxSize) {
+                hasError = true;
+                break;
+            }
+        }
+
+        const errorMessage = document.getElementById('image-error');
+        if (hasError) {
+            event.preventDefault();
+            errorMessage.style.display = 'block';
+        } else {
+            errorMessage.style.display = 'none';
+        }
+    });
+</script>
+
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'92a22f512f2832e7',t:'MTc0MzYxNjM5Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
 </html>

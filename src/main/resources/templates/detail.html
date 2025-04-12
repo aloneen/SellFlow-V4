@@ -30,6 +30,24 @@
 <div class="product_details">
     <div class="container">
         <div class="product_details_inner">
+
+            <div class="main-image-container">
+                <img th:src="'data:' + ${product.images[0].contentType} + ';base64,' + ${product.images[0].base64Data}"
+                     alt="Product Image"
+                     class="main-image"
+                     id="mainImage" height="400px">
+            </div>
+
+            <div class="thumbnail-container" th:if="${product.images.size() > 1}">
+                <img th:each="image,iter : ${product.images}"
+                     th:src="'data:' + ${image.contentType} + ';base64,' + ${image.base64Data}"
+                     class="thumbnail"
+                     th:classappend="${iter.index == 0} ? 'active' : ''"
+                     onclick="changeMainImage(this)"
+                     th:attr="data-fullsrc='data:' + ${image.contentType} + ';base64,' + ${image.base64Data}">
+            </div>
+
+
             <h2 th:text="${product.getTitle()}">
             </h2>
             <p th:text="${product.getDescription()}"></p>
@@ -41,5 +59,21 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+<script>
+    function changeMainImage(thumb) {
+        document.getElementById('mainImage').src = thumb.dataset.fullsrc;
+
+        document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+        thumb.classList.add('active');
+    }
+
+</script>
+
+
 </body>
 </html>

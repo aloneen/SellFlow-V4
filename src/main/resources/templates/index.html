@@ -27,7 +27,6 @@
 
 
 
-
 <div class="products">
     <div class="container">
         <div class="products_inner">
@@ -58,13 +57,25 @@
                 There are no products available
             </div>
             <div th:else>
-                <div th:each="product : ${products}">
-                    <a th:href="@{'/' + ${product.getId()} }">
-                        <h5 th:text="${product.getTitle()}"></h5>
-                    </a>
-                    <p>Price: <span th:text="${product.getPrice()}"></span></p>
-                    <p>City: <span th:text="${product.getCity()}"></span></p>
-                    <p>Category: <span th:text="${product.getCategory().getName()}"></span></p>
+                <div class="product-grid">
+                    <div th:each="product : ${products}" class="product-card">
+                        <a th:href="@{'/' + ${product.id}}">
+                            <div class="product-image-container">
+                                <img th:if="${!product.images.isEmpty()}"
+                                     th:src="'data:' + ${product.images[0].contentType} + ';base64,' + ${product.images[0].base64Data}"
+                                     alt="Product Image"
+                                     class="product-image">
+                                <div th:unless="${!product.images.isEmpty()}" class="no-image-placeholder">
+                                    <span>No Image</span>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <h5 th:text="${product.title}"></h5>
+                                <p class="price" th:text="'$' + ${product.price}"></p>
+                                <p class="location" th:text="${product.city}"></p>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

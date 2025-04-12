@@ -1,15 +1,17 @@
 package kz.seisen.sellflowv4.controllers;
 
-
+import kz.seisen.sellflowv4.entities.Image;
+import kz.seisen.sellflowv4.services.*;
 import kz.seisen.sellflowv4.entities.Category;
 import kz.seisen.sellflowv4.entities.Product;
-import kz.seisen.sellflowv4.services.CategoryService;
-import kz.seisen.sellflowv4.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 @Controller
@@ -18,6 +20,9 @@ public class ProductController {
 
     private final ProductService productService;
     private final CategoryService categoryService;
+
+
+    private static final long MAX_IMAGE_SIZE = 2 * 1024 * 1024;
 
     @Autowired
     public ProductController(ProductService productService, CategoryService categoryService) {
@@ -73,7 +78,8 @@ public class ProductController {
             @RequestParam int price,
             @RequestParam String city,
             @RequestParam String author,
-            @RequestParam Long category) {
+            @RequestParam Long category,
+            @RequestParam("images") MultipartFile[] imageFiles) throws IOException {
 
         Product product = new Product();
         product.setTitle(title);
@@ -82,9 +88,23 @@ public class ProductController {
         product.setCity(city);
         product.setAuthor(author);
 
-
         Category productCategory = categoryService.getCategoryById(category);
         product.setCategory(productCategory);
+
+        for (MultipartFile file : imageFiles) {
+            if (file.getSize() > MAX_IMAGE_SIZE) {
+                return "redirect:/";
+            }
+            if (!file.isEmpty() && !file.getContentType().startsWith("image/")) {
+                continue;
+            }
+
+            Image image = new Image();
+            image.setName(file.getOriginalFilename());
+            image.setContentType(file.getContentType());
+            image.setBase64Data(Base64.getEncoder().encodeToString(file.getBytes()));
+            product.addImage(image);
+        }
 
         productService.saveProduct(product);
         return "redirect:/";

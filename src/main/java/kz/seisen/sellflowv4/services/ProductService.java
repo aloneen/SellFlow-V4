@@ -1,19 +1,31 @@
 package kz.seisen.sellflowv4.services;
 
-
+import kz.seisen.sellflowv4.entities.Image;
 import kz.seisen.sellflowv4.entities.Product;
+import kz.seisen.sellflowv4.repositories.ImageRepository;
 import kz.seisen.sellflowv4.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private ImageRepository imageRepository;
 
+
+
+
+
+    public Image getImageById(Long id) {
+        return imageRepository.findById(id).orElse(null);
+    }
 
     public void saveProduct(Product product) {
         productRepository.save(product);
