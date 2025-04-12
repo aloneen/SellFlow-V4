@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Profile</title>
+</head>
+<body>
+<header class="header">
+    <div class="container">
+        <div class="header_inner">
+            <div class="logo">SellFlow</div>
+            <nav class="header_nav">
+                <span>
+                    <a th:href="@{'/'}" class="header_link">Products</a>
+                    <a th:href="@{'/add'}" class="header_link">Sell</a>
+                </span>
+
+            </nav>
+        </div>
+    </div>
+</header>
+<div class="profile-container">
+    <div class="profile-card">
+        <h2>My Profile</h2>
+        <div class="profile-info">
+            <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
+            <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+            <p><strong>Phone Number:</strong> <span th:text="${user.number}"></span></p>
+        </div>
+        <h3>My Products</h3>
+        <div class="product-list" th:if="${#lists.isEmpty(products)}">
+            <p>You haven't added any products yet.</p>
+        </div>
+        <div class="product-list" th:if="${!#lists.isEmpty(products)}">
+            <ul>
+                <li th:each="product : ${products}">
+                    <a th:href="@{'/' + ${product.id}}" th:text="${product.title}"></a>
+                </li>
+            </ul>
+        </div>
+
+        <span sec:authorize="isAuthenticated()">
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" class="header_link logout-btn" id="sign_in">Logout</button>
+            </form>
+        </span>
+    </div>
+</div>
+</body>
+</html>

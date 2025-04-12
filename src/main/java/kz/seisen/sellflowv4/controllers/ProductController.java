@@ -6,6 +6,8 @@ import kz.seisen.sellflowv4.services.*;
 import kz.seisen.sellflowv4.entities.Category;
 import kz.seisen.sellflowv4.entities.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -93,7 +95,6 @@ public class ProductController {
             @RequestParam String description,
             @RequestParam int price,
             @RequestParam Long city,
-            @RequestParam String author,
             @RequestParam Long category,
             @RequestParam("images") MultipartFile[] imageFiles) throws IOException {
 
@@ -101,11 +102,12 @@ public class ProductController {
         product.setTitle(title);
         product.setDescription(description);
         product.setPrice(price);
-        product.setAuthor(author);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        product.setAuthor(auth.getName());
 
         Category productCategory = categoryService.getCategoryById(category);
         product.setCategory(productCategory);
-
 
         City productCity = cityService.getCityById(city);
         product.setCity(productCity);
@@ -126,10 +128,7 @@ public class ProductController {
 
         productService.saveProduct(product);
         return "redirect:/";
-
     }
-
-
 
 
 

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Register</title>
+</head>
+<body>
+<header class="header">
+    <div class="container">
+        <div class="header_inner">
+            <div class="logo">SellFlow</div>
+            <nav class="header_nav">
+                <a th:href="@{'/'}" class="header_link">Products</a>
+                <a th:href="@{'/login'}" class="header_link">Sign In</a>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<div class="auth-container">
+    <div class="auth-card">
+        <h2>Register</h2>
+        <form th:action="@{/register}" th:object="${user}" method="post">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" th:field="*{username}" id="username" required minlength="3" maxlength="20" pattern="[A-Za-z0-9]{3,20}" title="3-20 alphanumeric characters">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" th:field="*{email}" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="number">Phone Number</label>
+                <input type="tel" th:field="*{number}" id="number" required pattern="[0-9]{10}" title="Enter a 10 digit phone number">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" th:field="*{password}" id="password" required minlength="6" title="At least 6 characters">
+            </div>
+            <button type="submit" class="btn">Register</button>
+        </form>
+        <div class="auth-footer">
+            <p>Already have an account? <a th:href="@{/login}">Sign in here</a>.</p>
+            <p th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

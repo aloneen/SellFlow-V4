@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,7 +20,11 @@
             <nav class="header_nav">
                 <a th:href="@{'/'}" class="header_link">Products</a>
                 <a th:href="@{'/add'}" class="header_link">Sell</a>
+                <span sec:authorize="isAuthenticated()">
+                    <a th:href="@{'/profile'}" class="header_link">Profile</a>
+                </span>
             </nav>
+
         </div>
     </div>
 </header>

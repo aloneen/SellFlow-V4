@@ -16,4 +16,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findByCategory_IdAndCity_Id(Long categoryId, Long cityId);
 
+    List<Product> findByAuthor(String username);
 }

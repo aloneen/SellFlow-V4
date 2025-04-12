@@ -57,4 +57,7 @@ public class ProductService {
         return productRepository.findByCategory_IdAndCity_Id(categoryId, cityId);
     }
 
+    public List<Product> findByAuthor(String username) {
+        return productRepository.findByAuthor(username);
+    }
 }
