@@ -50,6 +50,14 @@
                                 th:selected="${category.id == selectedCategory}">
                         </option>
                     </select>
+                    <select name="cityId" onchange="this.form.submit()">
+                        <option value="">All Cities</option>
+                        <option th:each="city : ${cities}"
+                                th:value="${city.id}"
+                                th:text="${city.name}"
+                                th:selected="${city.id == selectedCity}">
+                        </option>
+                    </select>
                 </div>
             </form>
 

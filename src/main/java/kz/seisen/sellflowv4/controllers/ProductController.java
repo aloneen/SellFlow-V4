@@ -38,20 +38,32 @@ public class ProductController {
     public String index(
             @RequestParam(required = false) String search,
             @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) Long cityId,
             Model model) {
 
         List<Product> products;
+
         if (search != null && !search.isEmpty()) {
             products = productService.searchByTitle(search);
+        } else if (categoryId != null && cityId != null) {
+            // Both category and city are selected.
+            products = productService.filterByCategoryAndCity(categoryId, cityId);
         } else if (categoryId != null) {
+            // Only category is selected.
             products = productService.filterByCategory(categoryId);
+        } else if (cityId != null) {
+            // Only city is selected.
+            products = productService.filterByCity(cityId);
         } else {
+            // No filter at all.
             products = productService.getAllProducts();
         }
 
         model.addAttribute("products", products);
         model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("cities", cityService.getAllCities());
         model.addAttribute("selectedCategory", categoryId);
+        model.addAttribute("selectedCity", cityId);
         model.addAttribute("searchQuery", search);
         return "index";
     }

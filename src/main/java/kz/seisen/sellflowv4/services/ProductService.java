@@ -51,4 +51,10 @@ public class ProductService {
     }
 
 
+    public List<Product> filterByCity(Long cityId) { return productRepository.findByCity_Id(cityId); }
+
+    public List<Product> filterByCategoryAndCity(Long categoryId, Long cityId) {
+        return productRepository.findByCategory_IdAndCity_Id(categoryId, cityId);
+    }
+
 }
