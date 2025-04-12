@@ -72,7 +72,7 @@
                             <div class="product-info">
                                 <h5 th:text="${product.title}"></h5>
                                 <p class="price" th:text="'$' + ${product.price}"></p>
-                                <p class="location" th:text="${product.city}"></p>
+                                <p class="location" th:text="${product.city.getName()}"></p>
                             </div>
                         </a>
                     </div>

@@ -14,8 +14,12 @@ public class Product {
     private String title;
     private String description;
     private int price;
-    private String city;
     private String author;
+
+    @ManyToOne
+    @JoinColumn(name = "city_id")
+    private City city;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
@@ -23,7 +27,7 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images = new ArrayList<>();
 
-    public Product(Long id, String title, String description, int price, String city, String author, Category category) {
+    public Product(Long id, String title, String description, int price, City city, String author, Category category) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -89,11 +93,11 @@ public class Product {
         this.price = price;
     }
 
-    public String getCity() {
+    public City getCity() {
         return city;
     }
 
-    public void setCity(String city) {
+    public void setCity(City city) {
         this.city = city;
     }
 

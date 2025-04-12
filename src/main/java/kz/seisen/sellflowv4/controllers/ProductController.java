@@ -1,5 +1,6 @@
 package kz.seisen.sellflowv4.controllers;
 
+import kz.seisen.sellflowv4.entities.City;
 import kz.seisen.sellflowv4.entities.Image;
 import kz.seisen.sellflowv4.services.*;
 import kz.seisen.sellflowv4.entities.Category;
@@ -20,14 +21,16 @@ public class ProductController {
 
     private final ProductService productService;
     private final CategoryService categoryService;
+    private final CityService cityService;
 
 
     private static final long MAX_IMAGE_SIZE = 2 * 1024 * 1024;
 
     @Autowired
-    public ProductController(ProductService productService, CategoryService categoryService) {
+    public ProductController(ProductService productService, CategoryService categoryService, CityService cityService) {
         this.productService = productService;
         this.categoryService = categoryService;
+        this.cityService = cityService;
     }
 
 
@@ -67,6 +70,7 @@ public class ProductController {
     @GetMapping("/add")
     public String add(Model model) {
         model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("cities", cityService.getAllCities());
         return "add";
     }
 
@@ -76,7 +80,7 @@ public class ProductController {
             @RequestParam String title,
             @RequestParam String description,
             @RequestParam int price,
-            @RequestParam String city,
+            @RequestParam Long city,
             @RequestParam String author,
             @RequestParam Long category,
             @RequestParam("images") MultipartFile[] imageFiles) throws IOException {
@@ -85,11 +89,14 @@ public class ProductController {
         product.setTitle(title);
         product.setDescription(description);
         product.setPrice(price);
-        product.setCity(city);
         product.setAuthor(author);
 
         Category productCategory = categoryService.getCategoryById(category);
         product.setCategory(productCategory);
+
+
+        City productCity = cityService.getCityById(city);
+        product.setCity(productCity);
 
         for (MultipartFile file : imageFiles) {
             if (file.getSize() > MAX_IMAGE_SIZE) {
@@ -98,7 +105,6 @@ public class ProductController {
             if (!file.isEmpty() && !file.getContentType().startsWith("image/")) {
                 continue;
             }
-
             Image image = new Image();
             image.setName(file.getOriginalFilename());
             image.setContentType(file.getContentType());
@@ -108,7 +114,11 @@ public class ProductController {
 
         productService.saveProduct(product);
         return "redirect:/";
+
     }
+
+
+
 
 
 
