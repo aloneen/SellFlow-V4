@@ -18,7 +18,6 @@ public class Image {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    // Constructors
     public Image() {}
 
     public Image(String name, String contentType, String base64Data) {
@@ -27,8 +26,6 @@ public class Image {
         this.base64Data = base64Data;
     }
 
-    // Getters and setters
-    // ...
 
 
     public Long getId() {

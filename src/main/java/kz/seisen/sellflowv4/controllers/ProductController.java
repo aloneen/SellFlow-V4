@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.Principal;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
@@ -129,6 +131,84 @@ public class ProductController {
         productService.saveProduct(product);
         return "redirect:/";
     }
+
+
+
+
+
+
+
+
+
+    @GetMapping("/edit/{id}")
+    public String showEditProduct(@PathVariable Long id, Model model, Principal principal) {
+        Product product = productService.getProductById(id);
+
+        if (product == null || !product.getAuthor().equals(principal.getName())) {
+            return "redirect:/?error=unauthorized";
+        }
+        model.addAttribute("product", product);
+        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("cities", cityService.getAllCities());
+        return "edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String updateProduct(@PathVariable Long id,
+                                @RequestParam String title,
+                                @RequestParam String description,
+                                @RequestParam int price,
+                                @RequestParam Long city,
+                                @RequestParam Long category,
+                                @RequestParam("images") MultipartFile[] imageFiles,
+                                Principal principal) throws IOException {
+
+        Product product = productService.getProductById(id);
+        if (product == null || !product.getAuthor().equals(principal.getName())) {
+            return "redirect:/?error=unauthorized";
+        }
+
+        product.setTitle(title);
+        product.setDescription(description);
+        product.setPrice(price);
+        product.setCategory(categoryService.getCategoryById(category));
+        product.setCity(cityService.getCityById(city));
+
+        // Check if new images were uploaded
+        boolean newImagesUploaded = Arrays.stream(imageFiles)
+                .anyMatch(file -> !file.isEmpty());
+
+        if (newImagesUploaded) {
+            product.getImages().clear();
+
+            for (MultipartFile file : imageFiles) {
+                if (file.getSize() > ProductController.MAX_IMAGE_SIZE) {
+                    continue;
+                }
+                if (!file.isEmpty() && file.getContentType().startsWith("image/")) {
+                    Image image = new Image();
+                    image.setName(file.getOriginalFilename());
+                    image.setContentType(file.getContentType());
+                    image.setBase64Data(Base64.getEncoder().encodeToString(file.getBytes()));
+                    product.addImage(image);
+                }
+            }
+        }
+
+        productService.saveProduct(product);
+        return "redirect:/";
+    }
+
+
+    @PostMapping("/delete/{id}")
+    public String deleteProduct(@PathVariable Long id, Principal principal) {
+        Product product = productService.getProductById(id);
+        if (product != null && product.getAuthor().equals(principal.getName())) {
+            productService.deleteProduct(id);
+        }
+        return "redirect:/";
+    }
+
 
 
 

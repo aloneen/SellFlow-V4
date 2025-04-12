@@ -18,8 +18,10 @@
             </div>
 
             <nav class="header_nav">
-                <a th:href="@{'/'}" class="header_link">Products</a>
-                <a th:href="@{'/add'}" class="header_link">Sell</a>
+                <span>
+                    <a th:href="@{'/'}" class="header_link">Products</a>
+                    <a th:href="@{'/add'}" class="header_link">Sell</a>
+                </span>
                 <span sec:authorize="isAuthenticated()">
                     <a th:href="@{'/profile'}" class="header_link">Profile</a>
                 </span>
@@ -59,6 +61,14 @@
             <p th:text="${category}"></p>
             <p th:text="${product.getCity().getName()}"></p>
             <p th:text="${product.getAuthor()}"></p>
+
+            <div sec:authorize="isAuthenticated()" th:if="${product.author == #authentication.name}">
+                <a th:href="@{'/edit/' + ${product.id}}" class="edit-btn">Edit</a>
+                <form th:action="@{'/delete/' + ${product.id}}" method="post" >
+                    <button type="submit" class="delete-btn">Delete</button>
+                </form>
+            </div>
+
 
         </div>
     </div>

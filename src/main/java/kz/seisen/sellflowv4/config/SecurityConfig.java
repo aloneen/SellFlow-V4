@@ -23,9 +23,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        // Permit anonymous access to products, details, and static resources
                         .requestMatchers("/", "/detail/**", "/css/**", "/js/**", "/register", "/login").permitAll()
-                        // Secure pages for adding products and accessing a profile
                         .requestMatchers("/add", "/profile").authenticated()
                         .anyRequest().authenticated()
                 )
@@ -49,7 +47,6 @@ public class SecurityConfig {
             if(user == null) {
                 throw new UsernameNotFoundException("User not found");
             }
-            // Spring Security requires roles to be provided without the "ROLE_" prefix
             String role = user.getRole().replace("ROLE_", "");
             return org.springframework.security.core.userdetails.User.withUsername(user.getUsername())
                     .password(user.getPassword())

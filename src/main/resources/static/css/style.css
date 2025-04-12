@@ -409,3 +409,27 @@ body {
 #sign_in:hover {
     opacity: .7;
 }
+
+
+.delete-btn {
+    padding: 12px;
+    margin: 12px;
+    border-radius: 8px;
+    color: white;
+    border: none;
+    background-color: #dc2626;
+}
+.delete-btn:hover {
+    background-color: #b91c1c;
+}
+.edit-btn {
+    padding: 12px;
+    margin: 12px;
+    border-radius: 8px;
+    color: white;
+    border: none;
+    background-color: #4f46e5;
+}
+.edit-btn:hover {
+    background-color: #4338ca;
+}

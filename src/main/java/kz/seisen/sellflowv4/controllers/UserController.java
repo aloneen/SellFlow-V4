@@ -50,11 +50,9 @@ public class UserController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
 
-        // Optionally, load user details from the repository if you want more information
         User user = userService.findByUsername(username);
         model.addAttribute("user", user);
 
-        // You might also list products created by this user based on the "author" field
         List<Product> productsByUser = productService.findByAuthor(username);
         model.addAttribute("products", productsByUser);
 
