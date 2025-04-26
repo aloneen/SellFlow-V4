@@ -12,6 +12,12 @@
         <div class="header_inner">
             <div class="logo">SellFlow</div>
             <nav class="header_nav">
+
+                <span sec:authorize="isAuthenticated()">
+                    <a th:href="@{/favorites}" class="header_link">My Favorites</a>
+                </span>
+
+
                 <span>
                     <a th:href="@{'/'}" class="header_link">Products</a>
                     <a th:href="@{'/add'}" class="header_link">Sell</a>

@@ -22,6 +22,12 @@
                     <a th:href="@{'/'}" class="header_link">Products</a>
                     <a th:href="@{'/add'}" class="header_link">Sell</a>
                 </span>
+
+                <span sec:authorize="isAuthenticated()">
+                    <a th:href="@{/favorites}" class="header_link">My Favorites</a>
+                </span>
+
+
                 <span sec:authorize="isAuthenticated()">
                     <a th:href="@{'/profile'}" class="header_link">Profile</a>
                 </span>

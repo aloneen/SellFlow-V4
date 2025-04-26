@@ -25,6 +25,11 @@
                             <button type="submit" class="header_link logout-btn">Logout</button>
                         </form>
                     </span>
+
+                    <span sec:authorize="isAuthenticated()">
+                        <a th:href="@{/favorites}" class="header_link">My Favorites</a>
+                    </span>
+
                     <span sec:authorize="isAnonymous()">
                         <a th:href="@{'/login'}" class="header_link">Sign In</a>
                         <a th:href="@{'/register'}" class="header_link">Register</a>

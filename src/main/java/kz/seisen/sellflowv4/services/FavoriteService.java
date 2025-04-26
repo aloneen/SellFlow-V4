@@ -6,6 +6,7 @@ import kz.seisen.sellflowv4.entities.Product;
 import kz.seisen.sellflowv4.repositories.FavoriteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class FavoriteService {
         }
     }
 
+    @Transactional
     public void removeFavorite(String username, Long productId) {
         User user = userService.findByUsername(username);
         Product product = productService.getProductById(productId);

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>My Favorites</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- copy your header nav here -->
+<header class="header">
+    <div class="container">
+        <div class="header_inner">
+            <div class="logo">SellFlow</div>
+            <nav class="header_nav">
+                <span><a th:href="@{'/'}" class="header_link">Products</a></span>
+                <span sec:authorize="isAuthenticated()">
+            <a th:href="@{/add}" class="header_link">Sell</a>
+            <a th:href="@{/favorites}" class="header_link">My Favorites</a>
+            <a th:href="@{/profile}" class="header_link">Profile</a>
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+              <button type="submit" class="header_link logout-btn">Logout</button>
+            </form>
+          </span>
+                <span sec:authorize="isAnonymous()">
+            <a th:href="@{/login}" class="header_link">Sign In</a>
+            <a th:href="@{/register}" class="header_link">Register</a>
+          </span>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <h2>My Favorites</h2>
+    <div th:if="${#lists.isEmpty(favorites)}">
+        <p>You haven’t favorited any products yet.</p>
+    </div>
+    <div th:each="fav : ${favorites}" class="product-card">
+        <a th:href="@{'/' + ${fav.product.id}}">
+            <h4 th:text="${fav.product.title}"></h4>
+        </a>
+        <form th:action="@{/favorites/remove}" method="post">
+            <input type="hidden" name="productId" th:value="${fav.product.id}" />
+            <button type="submit" class="btn btn-danger">Remove</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

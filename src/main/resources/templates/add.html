@@ -18,6 +18,12 @@
 
             <nav class="header_nav">
                 <span><a th:href="@{'/'}" class="header_link">Products</a></span>
+
+                <span sec:authorize="isAuthenticated()">
+                    <a th:href="@{/favorites}" class="header_link">My Favorites</a>
+                </span>
+
+
                 <span sec:authorize="isAuthenticated()">
                     <a th:href="@{'/profile'}" class="header_link">Profile</a>
                 </span>
