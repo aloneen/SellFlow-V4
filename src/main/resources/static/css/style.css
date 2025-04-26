@@ -433,3 +433,21 @@ body {
 .edit-btn:hover {
     background-color: #4338ca;
 }
+
+
+.detail-actions .btn {
+    display: block;      /* makes each button full-width */
+    width: 100%;
+    margin-top: 10px;
+}
+
+.detail-actions a,
+.detail-actions form {
+    text-decoration: none;
+}
+
+
+#edit {
+    margin-top: 10px;
+    color: white;
+}

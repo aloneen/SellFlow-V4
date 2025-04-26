@@ -85,14 +85,35 @@
 
 
 
-            <div sec:authorize="isAuthenticated()" th:if="${product.author == #authentication.name}">
-                <a th:href="@{'/edit/' + ${product.id}}" class="edit-btn">Edit</a>
-                <form th:action="@{'/delete/' + ${product.id}}" method="post" >
-                    <button type="submit" class="delete-btn">Delete</button>
-                </form>
+<!--            <div sec:authorize="isAuthenticated()" th:if="${product.author == #authentication.name}">-->
+<!--                <a th:href="@{'/edit/' + ${product.id}}" class="edit-btn">Edit</a>-->
+<!--                <form th:action="@{'/delete/' + ${product.id}}" method="post" >-->
+<!--                    <button type="submit" class="delete-btn">Delete</button>-->
+<!--                </form>-->
+<!--            </div>-->
+
+
+
+            <div class="detail-actions">
+                <div sec:authorize="isAuthenticated()" th:if="${product.author == #authentication.name}">
+                    <!-- Edit button -->
+                    <button class="btn btn-danger" >
+                        <a th:href="@{'/edit/' + ${product.id}}" id="edit">
+                            ✏️ Edit
+                        </a>
+                    </button>
+
+                    <!-- Delete button -->
+                    <form th:action="@{'/delete/' + ${product.id}}"
+                          method="post">
+                        <button type="submit"
+                                class="btn btn-danger"
+                                style="margin-top: 10px;">
+                            🗑️ Delete
+                        </button>
+                    </form>
+                </div>
             </div>
-
-
         </div>
     </div>
 </div>
