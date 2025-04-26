@@ -26,15 +26,17 @@ public class ProductController {
     private final ProductService productService;
     private final CategoryService categoryService;
     private final CityService cityService;
+    private final FavoriteService favoriteService;
 
 
     private static final long MAX_IMAGE_SIZE = 2 * 1024 * 1024;
 
     @Autowired
-    public ProductController(ProductService productService, CategoryService categoryService, CityService cityService) {
+    public ProductController(ProductService productService, CategoryService categoryService, CityService cityService, FavoriteService favoriteService) {
         this.productService = productService;
         this.categoryService = categoryService;
         this.cityService = cityService;
+        this.favoriteService = favoriteService;
     }
 
 
@@ -74,10 +76,16 @@ public class ProductController {
 
 
     @GetMapping("/{id}")
-    public String detail(@PathVariable Long id, Model model) {
+    public String detail(@PathVariable Long id, Model model, Principal principal) {
         Product product = productService.getProductById(id);
         model.addAttribute("product", productService.getProductById(id));
         model.addAttribute("category", product.getCategory().getName());
+
+        if (principal != null) {
+            boolean fav = favoriteService.isFavorited(principal.getName(), id);
+            model.addAttribute("isFavorited", fav);
+        }
+
         return "detail";
     }
 

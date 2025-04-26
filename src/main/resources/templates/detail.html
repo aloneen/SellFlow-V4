@@ -62,6 +62,23 @@
             <p th:text="${product.getCity().getName()}"></p>
             <p th:text="${product.getAuthor()}"></p>
 
+            <div sec:authorize="isAuthenticated()">
+                <form th:if="!${isFavorited}"
+                      th:action="@{/favorites/add}" method="post">
+                    <input type="hidden" name="productId" th:value="${product.id}" />
+                    <button type="submit" class="btn">❤️ Add to Favorites</button>
+                </form>
+                <form th:if="${isFavorited}"
+                      th:action="@{/favorites/remove}" method="post">
+                    <input type="hidden" name="productId" th:value="${product.id}" />
+                    <button type="submit" class="btn btn-danger">💔 Remove Favorite</button>
+                </form>
+            </div>
+
+
+
+
+
             <div sec:authorize="isAuthenticated()" th:if="${product.author == #authentication.name}">
                 <a th:href="@{'/edit/' + ${product.id}}" class="edit-btn">Edit</a>
                 <form th:action="@{'/delete/' + ${product.id}}" method="post" >
