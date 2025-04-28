@@ -2,6 +2,7 @@ package kz.seisen.sellflowv4.services;
 
 import kz.seisen.sellflowv4.entities.Image;
 import kz.seisen.sellflowv4.entities.Product;
+import kz.seisen.sellflowv4.repositories.FavoriteRepository;
 import kz.seisen.sellflowv4.repositories.ImageRepository;
 import kz.seisen.sellflowv4.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ public class ProductService {
     private ProductRepository productRepository;
     @Autowired
     private ImageRepository imageRepository;
+    @Autowired
+    private FavoriteRepository favoriteRepository;
 
 
 
@@ -36,9 +39,18 @@ public class ProductService {
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
+
+    @Transactional
     public void deleteProduct(Long id) {
-        productRepository.deleteById(id);
+        Product product = productRepository.findById(id).orElse(null);
+        if (product != null) {
+            // first delete any favorites referencing this product
+            favoriteRepository.deleteByProduct(product);
+            // then delete the product (images are cascaded/ orphanRemoved already)
+            productRepository.delete(product);
+        }
     }
+
     public void updateProduct(Product product) {
         productRepository.save(product);
     }

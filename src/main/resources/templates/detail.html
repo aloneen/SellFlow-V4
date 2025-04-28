@@ -1,137 +1,145 @@
 <!doctype html>
-<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/style.css">
-    <title th:text="${product.getTitle()}"></title>
+    <title th:text="${product.title}">Product Detail</title>
 </head>
 <body>
 
-<!--header-->
-
+<!-- HEADER -->
 <header class="header">
     <div class="container">
         <div class="header_inner">
-            <div class="logo">
-                SellFlow
-            </div>
+            <div class="logo">SellFlow</div>
 
             <nav class="header_nav">
                 <span>
-                    <a th:href="@{'/'}" class="header_link">Products</a>
-                    <a th:href="@{'/add'}" class="header_link">Sell</a>
+                    <a th:href="@{/}" class="header_link">Products</a>
+                    <a th:href="@{/add}" class="header_link">Sell</a>
                 </span>
 
                 <span sec:authorize="isAuthenticated()">
                     <a th:href="@{/favorites}" class="header_link">My Favorites</a>
+                    <a th:href="@{/profile}" class="header_link">Profile</a>
                 </span>
 
-
-                <span sec:authorize="isAuthenticated()">
-                    <a th:href="@{'/profile'}" class="header_link">Profile</a>
+                <span sec:authorize="isAnonymous()">
+                    <a th:href="@{/login}" class="header_link">Sign In</a>
+                    <a th:href="@{/register}" class="header_link">Register</a>
                 </span>
             </nav>
-
         </div>
     </div>
 </header>
 
-<!--header-->
-
+<!-- PRODUCT DETAIL -->
 <div class="product_details">
     <div class="container">
         <div class="product_details_inner">
 
+            <!-- MAIN IMAGE -->
             <div class="main-image-container">
                 <img th:src="'data:' + ${product.images[0].contentType} + ';base64,' + ${product.images[0].base64Data}"
                      alt="Product Image"
+                     id="mainImage"
                      class="main-image"
-                     id="mainImage" height="400px">
+                     height="400px">
             </div>
 
+            <!-- THUMBNAILS -->
             <div class="thumbnail-container" th:if="${product.images.size() > 1}">
-                <img th:each="image,iter : ${product.images}"
+                <img th:each="image, iter : ${product.images}"
                      th:src="'data:' + ${image.contentType} + ';base64,' + ${image.base64Data}"
                      class="thumbnail"
                      th:classappend="${iter.index == 0} ? 'active' : ''"
-                     onclick="changeMainImage(this)"
-                     th:attr="data-fullsrc='data:' + ${image.contentType} + ';base64,' + ${image.base64Data}">
+                     th:attr="data-fullsrc='data:' + ${image.contentType} + ';base64,' + ${image.base64Data}"
+                     onclick="changeMainImage(this)">
             </div>
 
+            <!-- TITLE + HEART + DROPDOWN -->
+            <div class="detail-header"
+                 style="display:flex; align-items:flex-start; justify-content:space-between; margin-top:16px;">
 
-            <h2 th:text="${product.getTitle()}">
-            </h2>
-            <p th:text="${product.getDescription()}"></p>
-            <b th:text="${product.getPrice()}"></b>
-            <p th:text="${category}"></p>
-            <p th:text="${product.getCity().getName()}"></p>
-            <p th:text="${product.getAuthor()}"></p>
+                <!-- Product Title -->
+                <h2 th:text="${product.title}" style="margin:0;"></h2>
 
-            <div sec:authorize="isAuthenticated()">
-                <form th:if="!${isFavorited}"
-                      th:action="@{/favorites/add}" method="post">
-                    <input type="hidden" name="productId" th:value="${product.id}" />
-                    <button type="submit" class="btn">❤️ Add to Favorites</button>
-                </form>
-                <form th:if="${isFavorited}"
-                      th:action="@{/favorites/remove}" method="post">
-                    <input type="hidden" name="productId" th:value="${product.id}" />
-                    <button type="submit" class="btn btn-danger">💔 Remove Favorite</button>
-                </form>
-            </div>
+                <!-- Container for heart + dropdown -->
+                <div sec:authorize="isAuthenticated()"
+                     class="header-controls">
 
-
-
-
-
-<!--            <div sec:authorize="isAuthenticated()" th:if="${product.author == #authentication.name}">-->
-<!--                <a th:href="@{'/edit/' + ${product.id}}" class="edit-btn">Edit</a>-->
-<!--                <form th:action="@{'/delete/' + ${product.id}}" method="post" >-->
-<!--                    <button type="submit" class="delete-btn">Delete</button>-->
-<!--                </form>-->
-<!--            </div>-->
-
-
-
-            <div class="detail-actions">
-                <div sec:authorize="isAuthenticated()" th:if="${product.author == #authentication.name}">
-                    <!-- Edit button -->
-                    <button class="btn btn-danger" >
-                        <a th:href="@{'/edit/' + ${product.id}}" id="edit">
-                            ✏️ Edit
-                        </a>
-                    </button>
-
-                    <!-- Delete button -->
-                    <form th:action="@{'/delete/' + ${product.id}}"
+                    <!-- Favorite toggle (heart) -->
+                    <form th:action="@{/favorites/remove}"
+                          th:if="${isFavorited}"
                           method="post">
+                        <input type="hidden" name="productId" th:value="${product.id}" />
                         <button type="submit"
-                                class="btn btn-danger"
-                                style="margin-top: 10px;">
-                            🗑️ Delete
+                                class="favorite-icon red"
+                                aria-label="Un-favorite">
+                            ♥
                         </button>
                     </form>
+                    <form th:action="@{/favorites/add}"
+                          th:if="!${isFavorited}"
+                          method="post">
+                        <input type="hidden" name="productId" th:value="${product.id}" />
+                        <button type="submit"
+                                class="favorite-icon"
+                                aria-label="Favorite">
+                            ♥
+                        </button>
+                    </form>
+
+                    <!-- Three-dots dropdown, positioned under the heart -->
+                    <div class="dropdown">
+                        <button id="actionsToggle" class="dropdown-toggle" aria-label="Actions">⋮</button>
+                        <div id="actionsMenu" class="dropdown-menu">
+                            <a th:href="@{'/edit/' + ${product.id}}" class="dropdown-item">✏️ Edit</a>
+                            <form th:action="@{'/delete/' + ${product.id}}" method="post" style="margin:0">
+                                <button type="submit" class="dropdown-item">🗑️ Delete</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+
+            <!-- DESCRIPTION & INFO -->
+            <p th:text="${product.description}" style="margin-top:16px;"></p>
+            <b th:text="${product.price}" style="display:block; margin:8px 0; font-size:24px; color:#dc2626;"></b>
+            <p><strong>Category:</strong> <span th:text="${category}"></span></p>
+            <p><strong>City:</strong> <span th:text="${product.city.name}"></span></p>
+            <p><strong>Seller:</strong> <span th:text="${product.author}"></span></p>
+
+
+
+
+
         </div>
     </div>
 </div>
 
-
-
-
-
+<!-- IMAGE SWITCH SCRIPT -->
 <script>
     function changeMainImage(thumb) {
         document.getElementById('mainImage').src = thumb.dataset.fullsrc;
-
         document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
         thumb.classList.add('active');
     }
 
+    // toggle the menu
+    document.getElementById('actionsToggle').addEventListener('click', function(e) {
+        e.stopPropagation();
+        document.getElementById('actionsMenu').classList.toggle('show');
+    });
+    // close whenever you click elsewhere
+    document.addEventListener('click', function() {
+        document.getElementById('actionsMenu').classList.remove('show');
+    });
 </script>
-
 
 </body>
 </html>

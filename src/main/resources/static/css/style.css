@@ -451,3 +451,88 @@ body {
     margin-top: 10px;
     color: white;
 }
+
+
+/* Stack heart & dropdown vertically, centered under each other */
+.header-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* ensure this sits at the right edge via the detail-header flex */
+    margin-left: 12px;
+    position: relative; /* for the dropdown-menu absolute positioning */
+}
+
+/* Heart stays up top */
+.favorite-icon {
+    font-size: 32px;
+    color: #aaa;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 0;
+    margin-bottom: 4px; /* small gap before the dots */
+}
+.favorite-icon.red {
+    color: #e0245e;
+}
+
+/* The dropdown container (no longer absolute itself) */
+.dropdown {
+    position: relative;
+}
+
+/* Three-dots button */
+.dropdown-toggle {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #555;
+    padding: 4px;
+}
+
+/* Center the menu directly under the toggle */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 4px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    border-radius: 4px;
+    min-width: 120px;
+    z-index: 100;
+}
+.dropdown-menu.show {
+    display: block;
+    min-width: 120px;
+}
+
+/* Menu items */
+.dropdown-item {
+    display: block;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: #333;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 0.95rem;
+
+    box-sizing: border-box;
+    width: 100%;         /* fill the dropdown’s width exactly */
+    outline: none;
+}
+.dropdown-item:hover {
+    background: #f5f5f5;
+}
+
+.dropdown-toggle:focus,
+.dropdown-item:focus {
+    outline: none;
+}
