@@ -536,3 +536,22 @@ body {
 .dropdown-item:focus {
     outline: none;
 }
+
+
+
+
+/*Admin*/
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.admin-table th,
+.admin-table td {
+    padding: 12px;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: left;
+}
+.admin-table th {
+    background-color: #f1f5f9;
+}

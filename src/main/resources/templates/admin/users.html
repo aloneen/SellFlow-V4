@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Admin — User Management</title>
+</head>
+<body>
+
+<header class="header">
+    <div class="container">
+        <div class="header_inner">
+            <div class="logo">
+                SellFlow
+            </div>
+
+            <nav class="header_nav">
+                <span>
+                    <a th:href="@{'/'}" class="header_link">Products</a>
+                    <a th:href="@{'/add'}" class="header_link">Sell</a>
+                </span>
+
+
+                <span sec:authorize="isAuthenticated()">
+                    <a th:href="@{'/profile'}" class="header_link">Profile</a>
+                </span>
+
+                <span sec:authorize="isAuthenticated()">
+                    <a th:href="@{/favorites}" class="header_link">My Favorites</a>
+                </span>
+
+
+                <span sec:authorize="isAnonymous()">
+                    <a th:href="@{'/login'}" class="header_link" id="sign_in">Sign In</a>
+                </span>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<div class="container" style="padding:24px;">
+    <h1>User Management</h1>
+    <table class="admin-table">
+        <thead>
+        <tr>
+            <th>Username</th><th>Email</th><th>Role</th><th>Status</th><th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.role}"></td>
+            <td>
+                <span th:text="${user.enabled} ? 'Active' : 'Banned'"></span>
+            </td>
+            <td>
+                <!-- Change Role -->
+                <form th:action="@{'/admin/users/' + ${user.id} + '/role'}"
+                      method="post" style="display:inline-block; margin-right:8px;">
+                    <select name="role" th:value="${user.role}">
+                        <option th:selected="${user.role=='ROLE_USER'}" value="ROLE_USER">USER</option>
+                        <option th:selected="${user.role=='ROLE_ADMIN'}" value="ROLE_ADMIN">ADMIN</option>
+                    </select>
+                    <button type="submit" class="btn">Update Role</button>
+                </form>
+
+                <!-- Ban / Unban -->
+                <form th:action="@{'/admin/users/' + ${user.id} + '/ban'}"
+                      method="post" style="display:inline-block;">
+                    <input type="hidden" name="enabled" th:value="${!user.enabled}" />
+                    <button type="submit"
+                            th:text="${user.enabled} ? 'Ban' : 'Unban'"
+                            th:classappend="${user.enabled} ? ' btn-danger' : ' btn-success'">
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

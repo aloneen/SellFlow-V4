@@ -22,6 +22,12 @@
                     <a th:href="@{'/add'}" class="header_link">Sell</a>
                 </span>
 
+                <!-- only admins see this -->
+                <span sec:authorize="hasRole('ADMIN')">
+                    <a th:href="@{/admin/users}" class="header_link">Admin Panel</a>
+                </span>
+
+
 
                 <span sec:authorize="isAuthenticated()">
                     <a th:href="@{'/profile'}" class="header_link">Profile</a>
@@ -35,6 +41,8 @@
                 <span sec:authorize="isAnonymous()">
                     <a th:href="@{'/login'}" class="header_link" id="sign_in">Sign In</a>
                 </span>
+
+
             </nav>
         </div>
     </div>

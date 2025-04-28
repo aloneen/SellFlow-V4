@@ -17,6 +17,11 @@
                     <a th:href="@{/favorites}" class="header_link">My Favorites</a>
                 </span>
 
+                <!-- only admins see this -->
+                <span sec:authorize="hasRole('ADMIN')">
+                     <a th:href="@{/admin/users}" class="header_link">Admin Panel</a>
+                </span>
+
 
                 <span>
                     <a th:href="@{'/'}" class="header_link">Products</a>

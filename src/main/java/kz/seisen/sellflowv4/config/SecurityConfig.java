@@ -2,6 +2,7 @@ package kz.seisen.sellflowv4.config;
 
 import kz.seisen.sellflowv4.entities.User;
 import kz.seisen.sellflowv4.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -18,6 +19,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    @Autowired
+    private CustomAuthFailureHandler customAuthFailureHandler;
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -25,10 +29,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/", "/detail/**", "/css/**", "/js/**", "/register", "/login").permitAll()
                         .requestMatchers("/add", "/profile").authenticated()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
+                        .failureHandler(customAuthFailureHandler)
                         .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
@@ -51,6 +57,7 @@ public class SecurityConfig {
             return org.springframework.security.core.userdetails.User.withUsername(user.getUsername())
                     .password(user.getPassword())
                     .roles(role)
+                    .disabled(!user.isEnabled())
                     .build();
         };
     }
