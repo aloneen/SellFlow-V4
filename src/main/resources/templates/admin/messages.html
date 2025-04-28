@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Admin — Messages</title>
+</head>
+<body>
+
+
+<div th:insert="fragments/header :: header"></div>
+
+<div class="container" style="padding:24px;">
+
+    <nav style="margin-bottom:16px;">
+        <a th:href="@{/admin/products}">Products Management</a> <br>
+        <a th:href="@{/admin/users}">User Management</a>
+    </nav>
+
+
+    <h1>Messages</h1>
+    <table class="admin-table">
+        <thead>
+        <tr>
+            <th>Id</th><th>created at</th><th>email</th><th>message</th><th>name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="message : ${messages}">
+            <td th:text="${message.id}"></td>
+            <td th:text="${message.createdAt}"></td>
+            <td th:text="${message.email}"></td>
+            <td th:text="${message.message}"></td>
+            <td th:text="${message.name}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<div th:insert="fragments/footer :: footer"></div>
+
+
+</body>
+</html>

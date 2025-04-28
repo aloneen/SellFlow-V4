@@ -1,6 +1,7 @@
 package kz.seisen.sellflowv4.controllers;
 
 import kz.seisen.sellflowv4.entities.Product;
+import kz.seisen.sellflowv4.entities.SupportMessage;
 import kz.seisen.sellflowv4.entities.User;
 import kz.seisen.sellflowv4.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-    @Autowired private AdminService adminService;
+    @Autowired
+    private AdminService adminService;
 
     @GetMapping("/users")
     public String listUsers(Model model) {
@@ -47,6 +49,13 @@ public class AdminController {
     public String deleteProduct(@PathVariable Long id) {
         adminService.deleteProduct(id);
         return "redirect:/admin/products";
+    }
+
+    @GetMapping("/messages")
+    public String listMessages(Model model) {
+        List<SupportMessage> messages = adminService.listAllSupportMessages();
+        model.addAttribute("messages", messages);
+        return "admin/messages";
     }
 
 }
