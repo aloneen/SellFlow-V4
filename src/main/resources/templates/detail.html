@@ -93,9 +93,19 @@
                         </button>
                     </form>
 
-                    <!-- Three-dots dropdown, positioned under the heart -->
-                    <div class="dropdown">
-                        <button id="actionsToggle" class="dropdown-toggle" aria-label="Actions">⋮</button>
+<!--                    &lt;!&ndash; Three-dots dropdown, positioned under the heart &ndash;&gt;-->
+<!--                    <div class="dropdown" >-->
+<!--                        <button id="actionsToggle" class="dropdown-toggle" aria-label="Actions">⋮</button>-->
+<!--                        <div id="actionsMenu" class="dropdown-menu">-->
+<!--                            <a th:href="@{'/edit/' + ${product.id}}" class="dropdown-item">✏️ Edit</a>-->
+<!--                            <form th:action="@{'/delete/' + ${product.id}}" method="post" style="margin:0">-->
+<!--                                <button type="submit" class="dropdown-item">🗑️ Delete</button>-->
+<!--                            </form>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+                    <div th:if="${currentUser == product.author}" class="dropdown">
+                        <button id="actionsToggle" class="dropdown-toggle">⋮</button>
                         <div id="actionsMenu" class="dropdown-menu">
                             <a th:href="@{'/edit/' + ${product.id}}" class="dropdown-item">✏️ Edit</a>
                             <form th:action="@{'/delete/' + ${product.id}}" method="post" style="margin:0">

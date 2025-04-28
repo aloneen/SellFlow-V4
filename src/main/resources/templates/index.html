@@ -25,7 +25,9 @@
                 <!-- only admins see this -->
                 <span sec:authorize="hasRole('ADMIN')">
                     <a th:href="@{/admin/users}" class="header_link">Admin Panel</a>
+                    <a th:href="@{/admin/products}" class="header_link">Post Mgmt</a>
                 </span>
+
 
 
 

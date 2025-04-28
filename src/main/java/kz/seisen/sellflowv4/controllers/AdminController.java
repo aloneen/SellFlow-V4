@@ -1,5 +1,6 @@
 package kz.seisen.sellflowv4.controllers;
 
+import kz.seisen.sellflowv4.entities.Product;
 import kz.seisen.sellflowv4.entities.User;
 import kz.seisen.sellflowv4.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,4 +35,18 @@ public class AdminController {
         adminService.setEnabled(id, enabled);
         return "redirect:/admin/users";
     }
+
+    @GetMapping("/products")
+    public String listProducts(Model model) {
+        List<Product> products = adminService.listAllProducts();
+        model.addAttribute("products", products);
+        return "admin/products";    // new template
+    }
+
+    @PostMapping("/products/{id}/delete")
+    public String deleteProduct(@PathVariable Long id) {
+        adminService.deleteProduct(id);
+        return "redirect:/admin/products";
+    }
+
 }

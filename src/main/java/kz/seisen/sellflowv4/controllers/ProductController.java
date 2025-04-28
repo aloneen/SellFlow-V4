@@ -81,6 +81,9 @@ public class ProductController {
         model.addAttribute("product", productService.getProductById(id));
         model.addAttribute("category", product.getCategory().getName());
 
+        String currentUser = (principal == null ? "" : principal.getName());
+        model.addAttribute("currentUser", currentUser);
+
         if (principal != null) {
             boolean fav = favoriteService.isFavorited(principal.getName(), id);
             model.addAttribute("isFavorited", fav);
