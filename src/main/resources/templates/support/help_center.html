@@ -1,23 +1,82 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Help Center</title>
     <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .faq-item { margin-bottom: 1rem; }
+        .faq-question { cursor: pointer; background: #4f46e5; color: white; padding: 1rem; border-radius: 8px; }
+        .faq-answer { display: none; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 8px; margin-top: 0.5rem; background: white; }
+        .faq-question:hover { background: #4338ca; }
+    </style>
 </head>
 <body>
 
 <div th:insert="fragments/header :: header"></div>
 
-
 <div class="container support-page" style="padding: 3rem 0;">
     <h1>Help Center</h1>
-    <p>Welcome to the Help Center! Here you’ll find FAQ, troubleshooting guides, and tutorials to get the most out of SellFlow.</p>
-    <!-- you can add accordion-style FAQ here -->
+    <p>Welcome to the Help Center! Here you’ll find FAQs, troubleshooting guides, and tutorials to get the most out of SellFlow.</p>
+
+    <section>
+        <h2>Frequently Asked Questions</h2>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">How do I create an account?</div>
+            <div class="faq-answer">Click on 'Register' in the top navigation bar and fill out the registration form with your username, email, phone number, and password.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">How can I post a new product?</div>
+            <div class="faq-answer">You must be logged in. Click on 'Sell' in the navigation menu, fill out the product form, upload images, and submit!</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">What should I do if I forget my password?</div>
+            <div class="faq-answer">Currently, password recovery is not available. Please create a new account if you lose access to your old one.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">How do I edit or delete my product listing?</div>
+            <div class="faq-answer">Go to your 'Profile' page, find the product, and click 'Edit' or 'Delete' next to the product you want to modify.</div>
+        </div>
+
+    </section>
+
+    <section style="margin-top: 3rem;">
+        <h2>Troubleshooting</h2>
+        <ul>
+            <li>If you can't upload images, make sure each file is less than 2MB and in JPG, PNG format.</li>
+            <li>If you cannot log in, ensure your username and password are entered correctly.</li>
+            <li>Clear your browser cache if you encounter display issues.</li>
+        </ul>
+    </section>
+
+    <section style="margin-top: 3rem;">
+        <h2>Getting Started Tutorials</h2>
+        <ol>
+            <li>Create an account by registering with your details.</li>
+            <li>Log in to your new account from the Sign In page.</li>
+            <li>Navigate to 'Sell' to post your first product.</li>
+            <li>Manage your listings from your 'Profile' page.</li>
+        </ol>
+    </section>
+
+    <div style="text-align: center; margin-top: 4rem;">
+        <a href="/support/contact" class="btn">Contact Support</a>
+    </div>
 </div>
 
 <div th:insert="fragments/footer :: footer"></div>
+
+<script>
+    function toggleAnswer(element) {
+        const answer = element.nextElementSibling;
+        answer.style.display = (answer.style.display === 'block') ? 'none' : 'block';
+    }
+</script>
+
 </body>
 </html>
