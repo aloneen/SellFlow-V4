@@ -34,27 +34,34 @@
             <td>
                 <span th:text="${user.enabled} ? 'Active' : 'Banned'"></span>
             </td>
-            <td>
-                <!-- Change Role -->
-                <form th:action="@{'/admin/users/' + ${user.id} + '/role'}"
-                      method="post" style="display:inline-block; margin-right:8px;">
-                    <select name="role" th:value="${user.role}">
-                        <option th:selected="${user.role=='ROLE_USER'}" value="ROLE_USER">USER</option>
-                        <option th:selected="${user.role=='ROLE_ADMIN'}" value="ROLE_ADMIN">ADMIN</option>
-                    </select>
-                    <button type="submit" class="btn">Update Role</button>
-                </form>
 
-                <!-- Ban / Unban -->
-                <form th:action="@{'/admin/users/' + ${user.id} + '/ban'}"
-                      method="post" style="display:inline-block;">
-                    <input type="hidden" name="enabled" th:value="${!user.enabled}" />
-                    <button type="submit"
-                            th:text="${user.enabled} ? 'Ban' : 'Unban'"
-                            th:classappend="${user.enabled} ? ' btn-danger' : ' btn-success'" class="btn">
-                    </button>
-                </form>
+            <td>
+                <div th:if="${user.username != currentUsername}">
+                    <!-- Change Role -->
+                    <form th:action="@{'/admin/users/' + ${user.id} + '/role'}"
+                          method="post" style="display:inline-block; margin-right:8px;">
+                        <select name="role" th:value="${user.role}">
+                            <option th:selected="${user.role=='ROLE_USER'}" value="ROLE_USER">USER</option>
+                            <option th:selected="${user.role=='ROLE_ADMIN'}" value="ROLE_ADMIN">ADMIN</option>
+                        </select>
+                        <button type="submit" class="btn">Update Role</button>
+                    </form>
+
+                    <!-- Ban / Unban -->
+                    <form th:action="@{'/admin/users/' + ${user.id} + '/ban'}"
+                          method="post" style="display:inline-block;">
+                        <input type="hidden" name="enabled" th:value="${!user.enabled}" />
+                        <button type="submit"
+                                th:text="${user.enabled} ? 'Ban' : 'Unban'"
+                                th:classappend="${user.enabled} ? ' btn-danger' : ' btn-success'" class="btn">
+                        </button>
+                    </form>
+                </div>
+                <div th:if="${user.username == currentUsername}">
+                    <span style="color:gray;">You cannot modify your own account</span>
+                </div>
             </td>
+
         </tr>
         </tbody>
     </table>
