@@ -40,6 +40,12 @@
 </header>
 
 <div class="container" style="padding:24px;">
+
+    <nav style="margin-bottom:16px;">
+        <a th:href="@{/admin/products}">Products Management</a>
+    </nav>
+
+
     <h1>User Management</h1>
     <table class="admin-table">
         <thead>
@@ -72,7 +78,7 @@
                     <input type="hidden" name="enabled" th:value="${!user.enabled}" />
                     <button type="submit"
                             th:text="${user.enabled} ? 'Ban' : 'Unban'"
-                            th:classappend="${user.enabled} ? ' btn-danger' : ' btn-success'">
+                            th:classappend="${user.enabled} ? ' btn-danger' : ' btn-success'" class="btn">
                     </button>
                 </form>
             </td>
