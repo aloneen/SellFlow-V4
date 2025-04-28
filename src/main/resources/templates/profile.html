@@ -32,6 +32,8 @@
         </div>
     </div>
 </header>
+
+
 <div class="profile-container">
     <div class="profile-card">
         <h2>My Profile</h2>
@@ -40,6 +42,11 @@
             <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
             <p><strong>Phone Number:</strong> <span th:text="${user.number}"></span></p>
         </div>
+
+        <div style="text-align:center; margin-top:1.5rem;">
+            <a th:href="@{/profile/edit}" class="btn">Edit Profile</a>
+        </div>
+
         <h3>My Products</h3>
         <div class="product-list" th:if="${#lists.isEmpty(products)}">
             <p>You haven't added any products yet.</p>
@@ -57,6 +64,9 @@
                 <button type="submit" class="header_link logout-btn" id="sign_in">Logout</button>
             </form>
         </span>
+
+
+
     </div>
 </div>
 </body>

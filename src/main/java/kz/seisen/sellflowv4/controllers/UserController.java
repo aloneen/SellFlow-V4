@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -71,6 +72,33 @@ public class UserController {
         model.addAttribute("products", products);
         return "user_profile";
     }
+
+
+    @GetMapping("/profile/edit")
+    public String showEditForm(Model model, Principal principal) {
+        User user = userService.findByUsername(principal.getName());
+        model.addAttribute("userForm", user);
+        return "edit_profile";
+    }
+
+    @PostMapping("/profile/edit")
+    public String processEditForm(
+            @ModelAttribute("userForm") User userForm,
+            @RequestParam(required = false) String newPassword,
+            Principal principal
+    ) {
+        // always update *this* user
+        String username = principal.getName();
+        userService.updateProfile(
+                username,
+                userForm.getEmail(),
+                userForm.getNumber(),
+                newPassword
+        );
+        return "redirect:/profile";
+    }
+
+
 
 
     @GetMapping("/login")

@@ -107,9 +107,9 @@
                     <div th:if="${currentUser == product.author}" class="dropdown">
                         <button id="actionsToggle" class="dropdown-toggle">⋮</button>
                         <div id="actionsMenu" class="dropdown-menu">
-                            <a th:href="@{'/edit/' + ${product.id}}" class="dropdown-item">✏️ Edit</a>
+                            <a th:href="@{'/edit/' + ${product.id}}" class="dropdown-item"> Edit</a>
                             <form th:action="@{'/delete/' + ${product.id}}" method="post" style="margin:0">
-                                <button type="submit" class="dropdown-item">🗑️ Delete</button>
+                                <button type="submit" class="dropdown-item"> Delete</button>
                             </form>
                         </div>
                     </div>
