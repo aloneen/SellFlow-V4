@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Help Center</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div th:insert="fragments/header :: header"></div>
+
+
+<div class="container support-page" style="padding: 3rem 0;">
+    <h1>Help Center</h1>
+    <p>Welcome to the Help Center! Here you’ll find FAQ, troubleshooting guides, and tutorials to get the most out of SellFlow.</p>
+    <!-- you can add accordion-style FAQ here -->
+</div>
+
+<div th:insert="fragments/footer :: footer"></div>
+</body>
+</html>

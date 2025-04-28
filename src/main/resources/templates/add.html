@@ -9,28 +9,8 @@
 </head>
 <body>
 
-<header class="header">
-    <div class="container">
-        <div class="header_inner">
-            <div class="logo">
-                SellFlow
-            </div>
 
-            <nav class="header_nav">
-                <span><a th:href="@{'/'}" class="header_link">Products</a></span>
-
-                <span sec:authorize="isAuthenticated()">
-                    <a th:href="@{/favorites}" class="header_link">My Favorites</a>
-                </span>
-
-
-                <span sec:authorize="isAuthenticated()">
-                    <a th:href="@{'/profile'}" class="header_link">Profile</a>
-                </span>
-            </nav>
-        </div>
-    </div>
-</header>
+<div th:insert="fragments/header :: header"></div>
 
 <div class="sell">
     <div class="container">
@@ -109,6 +89,9 @@
     });
 </script>
 
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'92a22f512f2832e7',t:'MTc0MzYxNjM5Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+
+<div th:insert="fragments/footer :: footer"></div>
+
+
 </body>
 </html>

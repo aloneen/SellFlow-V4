@@ -11,30 +11,7 @@
 <body>
 
 <!-- HEADER -->
-<header class="header">
-    <div class="container">
-        <div class="header_inner">
-            <div class="logo">SellFlow</div>
-
-            <nav class="header_nav">
-                <span>
-                    <a th:href="@{/}" class="header_link">Products</a>
-                    <a th:href="@{/add}" class="header_link">Sell</a>
-                </span>
-
-                <span sec:authorize="isAuthenticated()">
-                    <a th:href="@{/favorites}" class="header_link">My Favorites</a>
-                    <a th:href="@{/profile}" class="header_link">Profile</a>
-                </span>
-
-                <span sec:authorize="isAnonymous()">
-                    <a th:href="@{/login}" class="header_link">Sign In</a>
-                    <a th:href="@{/register}" class="header_link">Register</a>
-                </span>
-            </nav>
-        </div>
-    </div>
-</header>
+<div th:insert="fragments/header :: header"></div>
 
 <!-- PRODUCT DETAIL -->
 <div class="product_details">
@@ -159,6 +136,10 @@
         document.getElementById('actionsMenu').classList.remove('show');
     });
 </script>
+
+
+<div th:insert="fragments/footer :: footer"></div>
+
 
 </body>
 </html>

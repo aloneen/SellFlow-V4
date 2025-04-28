@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<!-- header -->
+<div th:insert="fragments/header :: header"></div>
+
+<div class="container support-page" style="padding: 3rem 0;">
+    <h1>Contact Us</h1>
+    <p>If you have any questions or feedback, drop us a line!</p>
+    <form th:action="@{/support/contact}" method="post" class="support-form">
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" name="name" required />
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" required />
+        </div>
+        <div class="form-group">
+            <label>Message</label>
+            <textarea name="message" rows="6" required></textarea>
+        </div>
+        <button type="submit" class="btn">Send Message</button>
+
+        <div th:if="${message}" class="success-message" style="margin-bottom: 1rem;">
+            <p th:text="${message}"></p>
+        </div>
+
+    </form>
+</div>
+
+<div th:insert="fragments/footer :: footer"></div>
+</body>
+</html>

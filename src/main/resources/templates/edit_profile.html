@@ -7,31 +7,7 @@
 </head>
 <body>
 
-<header class="header">
-    <div class="container">
-        <div class="header_inner">
-            <div class="logo">SellFlow</div>
-            <nav class="header_nav">
-
-                <span sec:authorize="isAuthenticated()">
-                    <a th:href="@{/favorites}" class="header_link">My Favorites</a>
-                </span>
-
-                <!-- only admins see this -->
-                <span sec:authorize="hasRole('ADMIN')">
-                     <a th:href="@{/admin/users}" class="header_link">Admin Panel</a>
-                </span>
-
-
-                <span>
-                    <a th:href="@{'/'}" class="header_link">Products</a>
-                    <a th:href="@{'/add'}" class="header_link">Sell</a>
-                </span>
-
-            </nav>
-        </div>
-    </div>
-</header>
+<div th:insert="fragments/header :: header"></div>
 
 <div class="container">
     <form th:action="@{/profile/edit}" th:object="${userForm}"
@@ -60,5 +36,9 @@
         <button type="submit" class="btn">Save Changes</button>
     </form>
 </div>
+
+<div th:insert="fragments/footer :: footer"></div>
+
+
 </body>
 </html>
