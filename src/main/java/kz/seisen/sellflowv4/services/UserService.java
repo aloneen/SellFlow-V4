@@ -17,9 +17,6 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     public User registerNewUser(User user) {
-        if(userRepository.findByUsername(user.getUsername()) != null) {
-            throw new IllegalArgumentException("Username already exists");
-        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("ROLE_USER");
         return userRepository.save(user);
@@ -30,15 +27,20 @@ public class UserService {
     }
 
     @Transactional
-    public void updateProfile(String username,
-                              String newEmail,
-                              String newNumber,
-                              String newPassword) {
-        User user = userRepository.findByUsername(username);
+    public void updateProfile(
+            String oldUsername,
+            String newUsername,
+            String newEmail,
+            String newNumber,
+            String newPassword
+    ) {
+        User user = userRepository.findByUsername(oldUsername);
         if (user == null) {
             throw new IllegalArgumentException("User not found");
         }
 
+        // apply changes
+        user.setUsername(newUsername);
         user.setEmail(newEmail);
         user.setNumber(newNumber);
 
@@ -47,6 +49,15 @@ public class UserService {
         }
 
         userRepository.save(user);
+    }
+
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public User findByNumber(String number) {
+        return userRepository.findByNumber(number);
     }
 
 }
