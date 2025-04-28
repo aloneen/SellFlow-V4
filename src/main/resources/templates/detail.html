@@ -122,7 +122,16 @@
             <b th:text="${product.price}" style="display:block; margin:8px 0; font-size:24px; color:#dc2626;"></b>
             <p><strong>Category:</strong> <span th:text="${category}"></span></p>
             <p><strong>City:</strong> <span th:text="${product.city.name}"></span></p>
-            <p><strong>Seller:</strong> <span th:text="${product.author}"></span></p>
+
+            <p>
+                <strong>Seller:</strong>
+                <span>
+                    <a th:href="@{'/users/' + ${product.author}}"
+                       style="font-weight:500;"
+                       th:text="${product.author}">
+                    </a>
+                </span>
+            </p>
 
 
 

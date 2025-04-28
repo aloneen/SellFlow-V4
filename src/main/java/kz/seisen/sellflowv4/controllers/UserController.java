@@ -59,6 +59,19 @@ public class UserController {
         return "profile";
     }
 
+    @GetMapping("/users/{username}")
+    public String viewUserProfile(@PathVariable String username, Model model) {
+        User user = userService.findByUsername(username);
+        if (user == null) {
+            return "redirect:/?error=userNotFound";
+        }
+        // fetch that user’s products
+        List<Product> products = productService.findByAuthor(username);
+        model.addAttribute("user", user);
+        model.addAttribute("products", products);
+        return "user_profile";
+    }
+
 
     @GetMapping("/login")
     public String login() {
